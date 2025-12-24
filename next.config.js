@@ -8,7 +8,7 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'localhost',
         port: '8080',
-        pathname: '/uploads/**',
+        pathname: '/**',
       },
 
       // Railway deployed backend
