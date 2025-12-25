@@ -6,6 +6,16 @@ import Image from 'next/image'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
 
+// Normalize image path to ensure it starts with /
+function getImageUrl(path: string | null | undefined): string {
+  if (!path) return ''
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path
+  }
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  return `${API_URL}${normalizedPath}`
+}
+
 interface BrandItem {
   imageUrl: string
   link: string
@@ -180,7 +190,7 @@ export default function Home() {
                     {brand.imageUrl ? (
                       <div className="relative w-full h-full">
                         <Image
-                          src={`${API_URL}${brand.imageUrl}`}
+                          src={getImageUrl(brand.imageUrl)}
                           alt={brand.name}
                           fill
                           className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
@@ -231,7 +241,7 @@ export default function Home() {
                   <div className="relative h-24 mb-3">
                     {customer.imageUrl ? (
                       <Image
-                        src={`${API_URL}${customer.imageUrl}`}
+                        src={getImageUrl(customer.imageUrl)}
                         alt={customer.name}
                         fill
                         className="object-contain group-hover:scale-105 transition-transform duration-300"
@@ -283,7 +293,7 @@ export default function Home() {
                   <div className="relative h-20 mb-4">
                     {platform.imageUrl ? (
                       <Image
-                        src={`${API_URL}${platform.imageUrl}`}
+                        src={getImageUrl(platform.imageUrl)}
                         alt={platform.name}
                         fill
                         className="object-contain group-hover:scale-110 transition-transform duration-300"
@@ -378,7 +388,7 @@ export default function Home() {
                     <div className="relative w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-metro-blue to-metro-red flex-shrink-0">
                       {recommendation.imageUrl ? (
                         <Image
-                          src={`${API_URL}${recommendation.imageUrl}`}
+                          src={getImageUrl(recommendation.imageUrl)}
                           alt={recommendation.name}
                           fill
                           className="object-cover"

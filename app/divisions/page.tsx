@@ -6,6 +6,16 @@ import Link from 'next/link'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
 
+// Normalize image path to ensure it starts with /
+function getImageUrl(path: string | null | undefined): string {
+  if (!path) return ''
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path
+  }
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  return `${API_URL}${normalizedPath}`
+}
+
 interface Division {
   divisionsId: string
   divisionsName: string
@@ -120,7 +130,7 @@ export default function DivisionsPage() {
                   {division.basicInfo?.bannerImage && (
                     <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
                       <Image
-                        src={`${API_URL}${division.basicInfo.bannerImage}`}
+                        src={getImageUrl(division.basicInfo.bannerImage)}
                         alt={division.divisionsName}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
