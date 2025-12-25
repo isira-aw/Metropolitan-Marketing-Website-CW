@@ -1,9 +1,8 @@
-'use client'
-
-import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
+
+/* ================= TYPES ================= */
 
 interface ManagementMember {
   name: string
@@ -29,46 +28,26 @@ interface AboutUs {
   milestonesJson: string
 }
 
-export default function AboutPage() {
-  const [about, setAbout] = useState<AboutUs | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
+/* ================= FETCH ================= */
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/public/about`, {
-          cache: 'no-store'
-        })
-        if (res.ok) {
-          const data = await res.json()
-          setAbout(data)
-        }
-      } catch (error) {
-        console.error('Error fetching about us:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
+async function getAboutUs(): Promise<AboutUs | null> {
+  try {
+    const res = await fetch(`${API_URL}/api/public/about`, {
+      next: { revalidate: 60 }
+    })
 
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections((prev) => new Set(prev).add(entry.target.id))
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
+    if (!res.ok) return null
+    return res.json()
+  } catch (error) {
+    console.error('Error fetching about us:', error)
+    return null
+  }
+}
 
-    const sections = document.querySelectorAll('[data-animate]')
-    sections.forEach((section) => observer.observe(section))
+/* ================= PAGE ================= */
 
-    return () => observer.disconnect()
-  }, [])
+export default async function AboutPage() {
+  const about = await getAboutUs()
 
   const managementTeam: ManagementMember[] = about?.managementTeamJson
     ? JSON.parse(about.managementTeamJson)
@@ -77,20 +56,6 @@ export default function AboutPage() {
   const milestones: Milestone[] = about?.milestonesJson
     ? JSON.parse(about.milestonesJson)
     : []
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="text-center">
-          <div className="relative w-20 h-20 mx-auto mb-6">
-            <div className="absolute top-0 left-0 w-full h-full border-4 border-metro-blue/30 rounded-full"></div>
-            <div className="absolute top-0 left-0 w-full h-full border-4 border-metro-red border-t-transparent rounded-full animate-spin"></div>
-          </div>
-          <p className="text-metro-gray text-lg font-medium">Loading...</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -110,14 +75,8 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {about ? (
           <>
-            {/* Company Description */}
-            <section
-              id="company"
-              data-animate
-              className={`mb-16 transition-all duration-1000 ${
-                visibleSections.has('company') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-            >
+            {/* ================= COMPANY DESCRIPTION ================= */}
+            <section className="mb-16 animate-fade-in-up">
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 md:p-12 border-2 border-gray-200 hover:border-metro-blue transition-all duration-300 hover-lift">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6 text-metro-gray">
                   {about.companyName || 'Our Company'}
@@ -129,15 +88,9 @@ export default function AboutPage() {
               </div>
             </section>
 
-            {/* Chairman Message */}
+            {/* ================= CHAIRMAN MESSAGE ================= */}
             {about.ownerName && (
-              <section
-                id="chairman"
-                data-animate
-                className={`mb-16 transition-all duration-1000 ${
-                  visibleSections.has('chairman') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-              >
+              <section className="mb-16 animate-slide-in-left">
                 <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl overflow-hidden border-2 border-gray-200 hover:border-metro-red transition-all duration-300 hover-lift">
                   <div className="p-8 md:p-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-metro-gray">
@@ -176,15 +129,9 @@ export default function AboutPage() {
               </section>
             )}
 
-            {/* Management Team */}
+            {/* ================= MANAGEMENT TEAM ================= */}
             {managementTeam.length > 0 && (
-              <section
-                id="team"
-                data-animate
-                className={`mb-16 transition-all duration-1000 ${
-                  visibleSections.has('team') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-              >
+              <section className="mb-16 animate-scale-in">
                 <div className="text-center mb-12">
                   <h2 className="text-3xl md:text-4xl font-bold text-metro-gray mb-4">
                     Management Team
@@ -197,7 +144,6 @@ export default function AboutPage() {
                     <div
                       key={index}
                       className="group hover-lift bg-white rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-metro-blue transition-all duration-300"
-                      style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       {member.profileImage && (
                         <div className="relative w-full h-64 overflow-hidden">
@@ -223,15 +169,9 @@ export default function AboutPage() {
               </section>
             )}
 
-            {/* Milestones */}
+            {/* ================= MILESTONES ================= */}
             {milestones.length > 0 && (
-              <section
-                id="milestones"
-                data-animate
-                className={`transition-all duration-1000 ${
-                  visibleSections.has('milestones') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-              >
+              <section className="animate-fade-in">
                 <div className="text-center mb-12">
                   <h2 className="text-3xl md:text-4xl font-bold text-metro-gray mb-4">
                     Our Milestones
@@ -240,18 +180,17 @@ export default function AboutPage() {
                 </div>
 
                 <div className="space-y-8">
-                  {milestones.map((milestone, index) => (
+                  {milestones.map((m, index) => (
                     <div
                       key={index}
                       className="group hover-lift bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-metro-red transition-all duration-300"
-                      style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 items-center">
-                        {milestone.image && (
+                        {m.image && (
                           <div className="relative h-48 md:h-full rounded-xl overflow-hidden">
                             <Image
-                              src={`${API_URL}${milestone.image}`}
-                              alt={`Milestone ${milestone.year}`}
+                              src={`${API_URL}${m.image}`}
+                              alt={`Milestone ${m.year}`}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
                               sizes="(max-width: 768px) 100vw, 33vw"
@@ -261,10 +200,10 @@ export default function AboutPage() {
 
                         <div className="md:col-span-2 p-4">
                           <div className="inline-block px-6 py-2 bg-gradient-to-r from-metro-blue to-metro-red text-white rounded-full font-bold text-xl mb-4">
-                            {milestone.year}
+                            {m.year}
                           </div>
                           <p className="text-gray-700 leading-relaxed text-lg">
-                            {milestone.description}
+                            {m.description}
                           </p>
                         </div>
                       </div>
