@@ -21,19 +21,6 @@ interface Division {
   updatedAt: string
 }
 
-async function getDivisionsData(): Promise<Division[]> {
-  try {
-    const res = await fetch(`${API_URL}/api/public/divisions`, {
-      cache: 'no-store'
-    })
-    if (!res.ok) return []
-    return res.json()
-  } catch (error) {
-    console.error('Error fetching divisions:', error)
-    return []
-  }
-}
-
 export default function DivisionsPage() {
   const [divisions, setDivisions] = useState<Division[]>([])
   const [loading, setLoading] = useState(true)
@@ -41,9 +28,19 @@ export default function DivisionsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getDivisionsData()
-      setDivisions(data)
-      setLoading(false)
+      try {
+        const res = await fetch(`${API_URL}/api/public/divisions`, {
+          cache: 'no-store'
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setDivisions(data)
+        }
+      } catch (error) {
+        console.error('Error fetching divisions:', error)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchData()
 

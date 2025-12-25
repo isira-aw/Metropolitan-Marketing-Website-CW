@@ -15,19 +15,6 @@ interface ContactInfo {
   linkedinUrl: string
 }
 
-async function getContactInfoData(): Promise<ContactInfo | null> {
-  try {
-    const res = await fetch(`${API_URL}/api/public/contact`, {
-      cache: 'no-store'
-    })
-    if (!res.ok) return null
-    return res.json()
-  } catch (error) {
-    console.error('Error fetching contact info:', error)
-    return null
-  }
-}
-
 export default function ContactPage() {
   const [contact, setContact] = useState<ContactInfo | null>(null)
   const [loading, setLoading] = useState(true)
@@ -43,9 +30,19 @@ export default function ContactPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getContactInfoData()
-      setContact(data)
-      setLoading(false)
+      try {
+        const res = await fetch(`${API_URL}/api/public/contact`, {
+          cache: 'no-store'
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setContact(data)
+        }
+      } catch (error) {
+        console.error('Error fetching contact info:', error)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchData()
   }, [])

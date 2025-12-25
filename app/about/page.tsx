@@ -29,19 +29,6 @@ interface AboutUs {
   milestonesJson: string
 }
 
-async function getAboutUsData(): Promise<AboutUs | null> {
-  try {
-    const res = await fetch(`${API_URL}/api/public/about`, {
-      cache: 'no-store'
-    })
-    if (!res.ok) return null
-    return res.json()
-  } catch (error) {
-    console.error('Error fetching about us:', error)
-    return null
-  }
-}
-
 export default function AboutPage() {
   const [about, setAbout] = useState<AboutUs | null>(null)
   const [loading, setLoading] = useState(true)
@@ -49,9 +36,19 @@ export default function AboutPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getAboutUsData()
-      setAbout(data)
-      setLoading(false)
+      try {
+        const res = await fetch(`${API_URL}/api/public/about`, {
+          cache: 'no-store'
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setAbout(data)
+        }
+      } catch (error) {
+        console.error('Error fetching about us:', error)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchData()
 
