@@ -14,14 +14,14 @@ export default function Navbar() {
             <Link href="/" className="text-gray-700 hover:text-blue-600 transition">
               Home
             </Link>
-            <Link href="/products" className="text-gray-700 hover:text-blue-600 transition">
-              Products
-            </Link>
             <Link href="/divisions" className="text-gray-700 hover:text-blue-600 transition">
               Divisions
             </Link>
             <Link href="/news" className="text-gray-700 hover:text-blue-600 transition">
               News
+            </Link>
+            <Link href="/blogs" className="text-gray-700 hover:text-blue-600 transition">
+              Blogs
             </Link>
             <Link href="/about" className="text-gray-700 hover:text-blue-600 transition">
               About Us
