@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    unoptimized: true, // Disable image optimization to avoid 403 errors from backend
     remotePatterns: [
       // Local backend
       {
