@@ -2,14 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true,
     remotePatterns: [
       // Local backend
       {
         protocol: 'http',
         hostname: 'localhost',
         port: '8080',
-        pathname: '/**',
+        pathname: '/uploads/**',
       },
 
       // Railway deployed backend

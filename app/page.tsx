@@ -157,9 +157,10 @@ export default function Home() {
         <section
           id="brands"
           data-animate
-          className={`py-20 bg-gray-50 transition-all duration-1000 ${
-            visibleSections.has('brands') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`py-20 bg-gray-50 transition-all duration-1000 ${visibleSections.has('brands')
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-100 translate-y-0'
+            }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
@@ -206,9 +207,9 @@ export default function Home() {
         <section
           id="customers"
           data-animate
-          className={`py-20 bg-white transition-all duration-1000 ${
-            visibleSections.has('customers') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`py-20 bg-white transition-all duration-1000 ${visibleSections.has('customers') ? 'opacity-100 translate-y-0'
+            : 'opacity-100 translate-y-0'
+            }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
@@ -258,9 +259,9 @@ export default function Home() {
         <section
           id="platforms"
           data-animate
-          className={`py-20 bg-gray-50 transition-all duration-1000 ${
-            visibleSections.has('platforms') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`py-20 bg-gray-50 transition-all duration-1000 ${visibleSections.has('platforms') ? 'opacity-100 translate-y-0'
+            : 'opacity-100 translate-y-0'
+            }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
@@ -309,9 +310,9 @@ export default function Home() {
       <section
         id="features"
         data-animate
-        className={`py-20 bg-white transition-all duration-1000 ${
-          visibleSections.has('features') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className={`py-20 bg-white transition-all duration-1000 ${visibleSections.has('features') ? 'opacity-100 translate-y-0'
+          : 'opacity-100 translate-y-0'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -345,9 +346,9 @@ export default function Home() {
         <section
           id="testimonials"
           data-animate
-          className={`py-20 bg-gray-50 transition-all duration-1000 ${
-            visibleSections.has('testimonials') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`py-20 bg-gray-50 transition-all duration-1000 ${visibleSections.has('testimonials') ? 'opacity-100 translate-y-0'
+            : 'opacity-100 translate-y-0'
+            }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
