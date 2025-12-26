@@ -22,11 +22,11 @@ async function getNewsItems(): Promise<NewsItem[]> {
     const res = await fetch(`${API_URL}/api/public/news/active?page=0&size=100`, {
       next: { revalidate: 60 } // ISR: revalidate every 60 seconds
     })
-    
+
     if (!res.ok) {
       return []
     }
-    
+
     const data = await res.json()
     return data.content || []
   } catch (error) {
@@ -39,62 +39,79 @@ export default async function NewsPage() {
   const items = await getNewsItems()
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-bold text-center mb-12">Latest News</h1>
-      
-      {items.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No news available yet.</p>
+
+    <div className="min-h-screen bg-white">
+      <section className="relative py-20 bg-gradient-to-br from-metro-blue via-blue-700 to-metro-red overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-metro-red rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {items.map((item) => (
-            <Link 
-              key={item.id} 
-              href={`/news/${item.id}`}
-              className="group cursor-pointer"
-            >
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
-                <div className="relative h-64 bg-gray-200">
-                  <Image
-                    src={`${API_URL}${item.thumbnailUrl || item.imageUrl}`}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  {item.isFeatured && (
-                    <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                      Featured
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-down">
+            Latest News & Updates
+          </h1>
+          <p className="text-xl text-white/90 max-w-2xl mx-auto mb-6">
+            Stay informed with the latest news, articles, and updates from Metropolitan Marketing. Explore our featured stories and insights.
+          </p>
+          <div className="w-24 h-1 bg-white mx-auto rounded-full"></div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {items.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No news available yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {items.map((item) => (
+              <Link
+                key={item.id}
+                href={`/news/${item.id}`}
+                className="group cursor-pointer"
+              >
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                  <div className="relative h-64 bg-gray-200">
+                    <Image
+                      src={`${API_URL}${item.thumbnailUrl || item.imageUrl}`}
+                      alt={item.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    {item.isFeatured && (
+                      <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                        Featured
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-blue-600">{item.category}</span>
+                      <span className="text-xs text-gray-500">
+                        {new Date(item.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-blue-600">{item.category}</span>
-                    <span className="text-xs text-gray-500">
-                      {new Date(item.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-600 line-clamp-2 mb-4">{item.description}</p>
-                  {item.author && (
-                    <p className="text-sm text-gray-500">By {item.author}</p>
-                  )}
-                  <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
-                    <span>👁 {item.viewCount} views</span>
-                    <span className="text-blue-600 font-medium group-hover:underline">
-                      Read more →
-                    </span>
+                    <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-600 line-clamp-2 mb-4">{item.description}</p>
+                    {item.author && (
+                      <p className="text-sm text-gray-500">By {item.author}</p>
+                    )}
+                    <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
+                      <span>👁 {item.viewCount} views</span>
+                      <span className="text-blue-600 font-medium group-hover:underline">
+                        Read more →
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <div className="relative">
-              <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-metro-blue to-metro-red bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105 inline-block">
+              <span className="text-2xl md:text-3xl  inline-block">
                 Metropolitan
               </span>
               <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-metro-red group-hover:w-full transition-all duration-300"></div>
