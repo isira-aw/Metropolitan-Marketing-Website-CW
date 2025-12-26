@@ -62,6 +62,22 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
 
+  const points = [
+    { icon: '🚀', text: 'Powering Progress with Precision' },
+    { icon: '⚡', text: 'Electrical Engineering Excellence Across Six Divisions.' },
+    { icon: '🌍', text: 'Powering the Future Through Integrated Expertise' }
+  ]
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % points.length)
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   useEffect(() => {
     fetchHomeContent()
 
@@ -152,6 +168,72 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Our Vision/Mission Section */}
+      <section
+        id="vision"
+        data-animate
+        className={`py-20 bg-white transition-all duration-1000 ${
+          visibleSections.has('vision') ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Left Content - Vision & Mission */}
+            <div className="space-y-10">
+              {/* Vision */}
+              <h2 className="text-4xl font-bold text-metro-gray mb-6">
+                  Our <span className="text-metro-blue">Vision</span>
+                </h2>
+              <div className="hover-lift">
+                <div className="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border-2 border-gray-200 hover:border-metro-blue transition-all duration-300">
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    A Metropolitan solution in every Place of Work.
+                  </p>
+                </div>
+              </div>
+
+              {/* Mission */}
+              <h2 className="text-4xl font-bold text-metro-gray mb-6">
+                  Our <span className="text-metro-red">Mission</span>
+                </h2>
+              <div className="hover-lift">
+                
+                <div className="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border-2 border-gray-200 hover:border-metro-red transition-all duration-300">
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    We offer Work Place and Personal Productivity solutions 
+                    and services, that exceed customer expectations and unparalleled 
+                    marketing capabilities to our business partners whilst providing 
+                    our Staff the opportunity for personal advancement with performance 
+                    based recognition and rewards.
+                  </p>
+                </div>
+              </div>
+
+              {/* Vision Points */}
+              <div className="flex items-center gap-4 bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl border-2 border-gray-200 hover:border-metro-blue transition-all duration-300 hover-lift">
+  <div className="text-4xl flex-shrink-0">{points[currentIndex].icon}</div>
+  <span className="text-gray-700 font-medium">{points[currentIndex].text}</span>
+</div>
+
+            </div>
+
+            {/* Right Visual Card - Corporate Values */}
+            <div className="hover-lift lg:sticky lg:top-8 rounded-xl border-2 border-gray-200 hover:border-metro-blue transition-all duration-300 hover-lift">
+              <div className="bg-gradient-to-br  to-blue-700 rounded-3xl p-8 text-white shadow-2xl">
+                <h3 className="text-3xl font-bold mb-6 text-center">Corporate Values</h3>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border-2 border-white/20">
+                  <img 
+                    src="https://ik.imagekit.io/ayen/Metropolitan/metro-values-graph2.png"
+                    alt="Corporate Values"
+                    className="w-full h-auto rounded-xl"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Our Brands Section */}
       {content?.ourBrands && content.ourBrands.length > 0 && (
         <section
@@ -214,10 +296,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-metro-gray mb-4">Our Customers</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto mt-4 rounded-full"></div>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">
                 Trusted by leading companies around the world
               </p>
-              <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto mt-4 rounded-full"></div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {content.ourCustomers.map((customer, index) => (
@@ -266,10 +348,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-metro-gray mb-4">Our Platforms</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto mt-4 rounded-full"></div>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">
                 Integrated with the best platforms for your success
               </p>
-              <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto mt-4 rounded-full"></div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {content.ourPlatforms.map((platform, index) => (
@@ -306,37 +388,121 @@ export default function Home() {
         </section>
       )}
 
-      {/* Features Section */}
+      {/* Why Choose Us Section */}
       <section
-        id="features"
+        id="why-choose-us"
         data-animate
-        className={`py-20 bg-white transition-all duration-1000 ${visibleSections.has('features') ? 'opacity-100 translate-y-0'
-          : 'opacity-100 translate-y-0'
-          }`}
+        className={`py-20 bg-white transition-all duration-1000 ${
+          visibleSections.has('why-choose-us') ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-metro-gray mb-4">Why Choose Us</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto rounded-full"></div>
+            <h2 className="text-4xl md:text-5xl font-bold text-metro-gray mb-4">Why Choose Us?</h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto mt-6 rounded-full"></div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mt-4">
+              We consider our customers as partners and share our business 
+              acumen and entrepreneurial vision to create and implement 
+              innovative solutions to empower their success.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {[
-              { icon: '🎯', title: 'Quality Service', description: 'We provide top-notch services to our clients with attention to detail' },
-              { icon: '⚡', title: 'Fast Delivery', description: 'Quick turnaround time for all projects without compromising quality' },
-              { icon: '💼', title: 'Professional Team', description: 'Experienced professionals dedicated to your success' }
+              { icon: '/Assets/Images/icons/experienced-team-icon.svg', title: 'Experienced Team' },
+              { icon: '/Assets/Images/icons/tools-icon.svg', title: 'Advanced Equipment' },
+              { icon: '/Assets/Images/icons/trained-staff-icon.svg', title: 'Trained Staff' },
+              { icon: '/Assets/Images/icons/gear-icon.svg', title: 'Genuine Spare Parts' },
+              { icon: '/Assets/Images/icons/24-hours-call-icon.svg', title: '24/7/365 Service' },
+              { icon: '/Assets/Images/icons/product-icon.svg', title: 'Ex-Stock Products' },
+              { icon: '/Assets/Images/icons/handshake-icon.svg', title: 'Trusted Partner' },
+              { icon: '/Assets/Images/icons/quality-icon.svg', title: 'Quality Assurance' }
             ].map((feature, index) => (
               <div
                 key={index}
-                className="group hover-lift bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 text-center border-2 border-gray-200 hover:border-metro-blue transition-all duration-300"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className="group hover-lift bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 text-center border-2 border-gray-200 hover:border-metro-blue transition-all duration-300"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
-                <h3 className="text-2xl font-semibold mb-3 text-metro-gray group-hover:text-metro-blue transition-colors duration-300">
+                <div className="relative w-16 h-16 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <img 
+                    src={feature.icon} 
+                    alt={feature.title}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <h3 className="text-base font-semibold text-metro-gray group-hover:text-metro-blue transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      
+      {/* Two Column Section - Blog */}
+      <section
+        id="blog-cta"
+        data-animate
+        className={`py-0 bg-white transition-all duration-1000 ${
+          visibleSections.has('blog-cta') ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center overflow-hidden rounded-3xl bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200">
+            {/* Text Content */}
+            <div className="p-12 lg:p-16 order-2 lg:order-1">
+              <h3 className="text-4xl md:text-5xl font-bold text-metro-gray mb-6">
+                What have we done?
+              </h3>
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                Showcasing our projects and engineering achievements across diverse industries.
+              </p>
+              <Link
+                href="/blogs"
+                className="inline-block px-8 py-4 bg-gradient-to-r from-metro-blue to-blue-700 text-white rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+              >
+                Our Blog
+              </Link>
+            </div>
+            {/* Image Content */}
+            <div className="relative h-80 lg:h-full min-h-[400px] bg-gradient-to-br from-metro-blue/10 to-metro-red/10 order-1 lg:order-2">
+              <div className="absolute inset-0 bg-[url('/Assets/Images/blog-image.jpg')] bg-cover bg-center"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-metro-blue/20 to-transparent"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Two Column Section - Contact */}
+      <section
+        id="contact-cta"
+        data-animate
+        className={`py-20 bg-white transition-all duration-1000 ${
+          visibleSections.has('contact-cta') ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center overflow-hidden rounded-3xl bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200">
+            {/* Image Content */}
+            <div className="relative h-80 lg:h-full min-h-[400px] bg-gradient-to-br from-metro-red/10 to-metro-blue/10">
+              <div className="absolute inset-0 bg-[url('/Assets/Images/contact-image.jpg')] bg-cover bg-center"></div>
+              <div className="absolute inset-0 bg-gradient-to-l from-metro-red/20 to-transparent"></div>
+            </div>
+            {/* Text Content */}
+            <div className="p-12 lg:p-16">
+              <h3 className="text-4xl md:text-5xl font-bold text-metro-gray mb-6">
+                Get in Touch
+              </h3>
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed mt ">
+                Have questions or projects? Let's talk.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-block px-8 py-4 bg-gradient-to-r from-metro-red to-red-700 text-white rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+              >
+                Talk to Us
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -355,10 +521,10 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold text-metro-gray mb-4">
                 What Our Clients Say
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto mt-4 rounded-full"></div>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">
                 Don't just take our word for it - hear from our satisfied clients
               </p>
-              <div className="w-24 h-1 bg-gradient-to-r from-metro-blue to-metro-red mx-auto mt-4 rounded-full"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {content.recommendations.map((recommendation, index) => (
@@ -411,6 +577,7 @@ export default function Home() {
           </div>
         </section>
       )}
+
 
       {/* Call to Action Section */}
       <section className="py-24 bg-gradient-to-br from-metro-blue via-blue-700 to-metro-red text-white relative overflow-hidden">
