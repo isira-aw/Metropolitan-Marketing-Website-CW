@@ -2,20 +2,6 @@ import Image from 'next/image'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
 
-/* ================= HELPERS ================= */
-
-// Normalize image path to ensure it starts with /
-function getImageUrl(path: string | null | undefined): string {
-  if (!path) return ''
-  // If path already starts with http:// or https://, return as is
-  if (path.startsWith('http://') || path.startsWith('https://')) {
-    return path
-  }
-  // Ensure path starts with /
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`
-  return `${API_URL}${normalizedPath}`
-}
-
 /* ================= TYPES ================= */
 
 interface ManagementMember {
@@ -116,7 +102,7 @@ export default async function AboutPage() {
                       {about.ownerImageUrl && (
                         <div className="relative h-96 rounded-2xl overflow-hidden group">
                           <Image
-                            src={getImageUrl(about.ownerImageUrl)}
+                            src={`${API_URL}${about.ownerImageUrl}`}
                             alt={about.ownerName}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -162,7 +148,7 @@ export default async function AboutPage() {
                       {member.profileImage && (
                         <div className="relative w-full h-64 overflow-hidden">
                           <Image
-                            src={getImageUrl(member.profileImage)}
+                            src={`${API_URL}${member.profileImage}`}
                             alt={member.name}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -203,7 +189,7 @@ export default async function AboutPage() {
                         {m.image && (
                           <div className="relative h-48 md:h-full rounded-xl overflow-hidden">
                             <Image
-                              src={getImageUrl(m.image)}
+                              src={`${API_URL}${m.image}`}
                               alt={`Milestone ${m.year}`}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
