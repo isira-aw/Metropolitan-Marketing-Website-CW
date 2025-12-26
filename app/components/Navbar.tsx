@@ -27,11 +27,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled
           ? 'bg-white shadow-lg py-2'
           : 'bg-white/95 backdrop-blur-md py-4'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -77,19 +76,16 @@ export default function Navbar() {
           >
             <div className="w-6 h-5 flex flex-col justify-between">
               <span
-                className={`w-full h-0.5 bg-metro-gray transition-all duration-300 ${
-                  isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''
-                }`}
+                className={`w-full h-0.5 bg-metro-gray transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''
+                  }`}
               ></span>
               <span
-                className={`w-full h-0.5 bg-metro-gray transition-all duration-300 ${
-                  isMobileMenuOpen ? 'opacity-0' : ''
-                }`}
+                className={`w-full h-0.5 bg-metro-gray transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''
+                  }`}
               ></span>
               <span
-                className={`w-full h-0.5 bg-metro-gray transition-all duration-300 ${
-                  isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
-                }`}
+                className={`w-full h-0.5 bg-metro-gray transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                  }`}
               ></span>
             </div>
           </button>
@@ -97,30 +93,31 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ${
-            isMobileMenuOpen ? 'max-h-96 mt-4' : 'max-h-0'
-          }`}
+          className={`md:hidden overflow-hidden transition-[max-height] duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-screen' : 'max-h-0'
+            }`}
         >
-          <div className="flex flex-col space-y-2 pb-4">
+          <div className="flex flex-col space-y-2 pb-4 mt-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-3 text-metro-gray hover:text-metro-blue hover:bg-gray-50 rounded-lg font-medium transition-all duration-300"
+                className="px-4 py-3 text-metro-gray hover:text-metro-blue hover:bg-gray-50 rounded-lg font-medium transition-colors duration-300"
               >
                 {link.label}
               </Link>
             ))}
+
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="mx-4 px-6 py-3 bg-metro-blue text-white rounded-full font-semibold hover:bg-metro-red transition-all duration-300 text-center"
+              className="mx-4 px-6 py-3 bg-metro-blue text-white rounded-full font-semibold hover:bg-metro-red transition-colors duration-300 text-center"
             >
               Get Started
             </Link>
           </div>
         </div>
+
       </div>
     </nav>
   )
